@@ -1,3 +1,9 @@
+production:
+  clients:
+    default:
+      database: trump_twitter_production
+      uri: <%= ENV['MONGODB_URI'] %>
+      
 development:
   # Configure available database clients. (required)
   clients:
