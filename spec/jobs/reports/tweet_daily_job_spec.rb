@@ -6,7 +6,7 @@ RSpec.describe Reports::TweetDailyJob, type: :job do
   before(:each){
     @today_start = Date.today.beginning_of_day
     @today_end = Date.today.end_of_day
-    @yesterday_end = Date.yesterday.end_of_day
+    @yesterday_end = @today_end - 1.day
 
     @tweets = [
       create(:tweet, created_at: @today_start),
@@ -43,11 +43,11 @@ RSpec.describe Reports::TweetDailyJob, type: :job do
     it 'returns collections count by created_at dates' do
       expected_tweets_by_day = {
         Date.today => 2,
-        Date.yesterday => 1
+        Date.today - 1.day => 1
       }
       expected_retweets_by_day = {
         Date.today => 1,
-        Date.yesterday => 2
+        Date.today - 1.day => 2
       }
       expect(job.send(:tally_by_date, @tweets, @retweets)).to eq ([expected_tweets_by_day, expected_retweets_by_day])
     end
@@ -66,7 +66,6 @@ RSpec.describe Reports::TweetDailyJob, type: :job do
       ].map(&:stringify_keys)
       expect{job.perform(two_days_ago)}.to change{Reports::TweetDailyReport.count}.by(3)
       expect(result).to eq(expected)
-
     end
   end
 end

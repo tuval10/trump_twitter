@@ -5,22 +5,22 @@ RSpec.describe Links::CountMentionsManagerJob, type: :job do
   let(:job) {described_class.new}
   it {is_expected.to be_processed_in :manager}
 
-  describe '#new_links' do
-    it 'filters old tweets' do
-      create(:fetched_link, created_at: Time.now - 2.day)
-      expect(job.send(:new_links, Time.now - 1.day).count).to eq(0)
+  describe '#unscanned_links_ids' do
+    it 'filters scanned links' do
+      create(:scanned_link)
+      expect(job.send(:unscanned_links_ids).count).to eq(0)
     end
 
-    it 'returns new tweets' do
-      create(:fetched_link, created_at: Time.now)
-      expect(job.send(:new_links, Time.now - 1.day).count).to eq(1)
+    it 'returns unscanned links ids' do
+      link = create(:link)
+      expect(job.send(:unscanned_links_ids)).to eq([link.id.to_s])
     end
   end
 
   it 'calls Links::CountMentionsJob.perform_later after finishing' do
     ActiveJob::Base.queue_adapter = :test
     ActiveJob::Base.queue_adapter.perform_enqueued_jobs = true
-    link = create(:fetched_link)
+    link = create(:link)
     expect_any_instance_of(Links::CountMentionsJob).to receive(:perform).with(link.id.to_s)
     described_class.perform_later
     clear_enqueued_jobs

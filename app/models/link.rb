@@ -1,7 +1,5 @@
 class Link < ApplicationRecord
   field :url, type: String
-  field :body, type: String
-  field :fetched, type: Mongoid::Boolean, default: false
   field :scanned, type: Mongoid::Boolean, default: false
 
   belongs_to :tweet

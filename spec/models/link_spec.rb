@@ -11,11 +11,9 @@ RSpec.describe Link, type: :model do
   context 'Fields' do
     it do
       is_expected.to have_field(:_id).of_type(BSON::ObjectId)
-      is_expected.to have_field(:body).of_type(String)
       is_expected.to have_field(:url).of_type(String)
       is_expected.to have_field(:tweet_id).of_type(Object)
       is_expected.to have_field(:created_at).of_type(Time)
-      is_expected.to have_field(:fetched).of_type(Mongoid::Boolean).with_default_value_of(false)
       is_expected.to have_field(:scanned).of_type(Mongoid::Boolean).with_default_value_of(false)
     end
   end

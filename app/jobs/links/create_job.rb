@@ -8,14 +8,14 @@ class Links::CreateJob < ApplicationJob
     @last_updated_at = last_updated_at
     new_tweets(last_updated_at).each do |tweet|
       extract_urls(tweet.text).uniq.each do |url|
-        tweet.links.create!(url: url, fetched: false, created_at: tweet.created_at)
+        tweet.links.create!(url: url, scanned: false, created_at: tweet.created_at)
       end
     end
   end
 
   after_perform do |job|
     Link.create_indexes
-    Links::FetchManagerJob.perform_later
+    Links::CountMentionsManagerJob.perform_later
   end
 
   private

@@ -32,10 +32,10 @@ RSpec.describe Links::CreateJob, type: :job do
   end
 
   describe 'after_perform' do
-    it 'calls Links::FetchManagerJob.perform_later after finishing' do
+    it 'calls Links::CountMentionsManagerJob.perform_later after finishing' do
       ActiveJob::Base.queue_adapter = :test
       ActiveJob::Base.queue_adapter.perform_enqueued_jobs = true
-      expect_any_instance_of(Links::FetchManagerJob).to receive(:perform)
+      expect_any_instance_of(Links::CountMentionsManagerJob).to receive(:perform)
       described_class.perform_later(Time.new)
       clear_enqueued_jobs
       clear_performed_jobs
