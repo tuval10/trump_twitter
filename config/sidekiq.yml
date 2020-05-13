@@ -7,5 +7,5 @@ production:
 :queues:
   - [manager, 4]
   - [reports, 2]
-  - low
+  - default
   - [rollbar, 8]
