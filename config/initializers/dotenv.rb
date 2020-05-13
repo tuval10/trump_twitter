@@ -1,0 +1,1 @@
+Dotenv.require_keys("API_URL", "KEYWORDS", "MONGO_URI", "CLIENT_ENDPOINT", "REDIS_URL", "DATA_SINCE")

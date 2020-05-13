@@ -1,0 +1,50 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://httpstat.us/404
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Cache-Control:
+      - private
+      Content-Length:
+      - '13'
+      Content-Type:
+      - text/plain; charset=utf-8
+      Server:
+      - Microsoft-IIS/10.0
+      X-Aspnetmvc-Version:
+      - '5.1'
+      Access-Control-Allow-Origin:
+      - "*"
+      X-Aspnet-Version:
+      - 4.0.30319
+      Request-Context:
+      - appId=cid-v1:7585021b-2db7-4da6-abff-2cf23005f0a9
+      Access-Control-Expose-Headers:
+      - Request-Context
+      X-Powered-By:
+      - ASP.NET
+      Set-Cookie:
+      - ARRAffinity=c8895273486274be52e11946d56eaf2b935ec190f10227edf72086fbba0b3a96;Path=/;HttpOnly;Domain=httpstat.us
+      Date:
+      - Wed, 13 May 2020 15:02:13 GMT
+    body:
+      encoding: UTF-8
+      string: 404 Not Found
+    http_version: null
+  recorded_at: Wed, 13 May 2020 15:02:12 GMT
+recorded_with: VCR 5.1.0
