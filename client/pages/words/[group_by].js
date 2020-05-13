@@ -8,12 +8,13 @@ const fakePromise = data =>
 
 export default class Words extends React.Component {
   // this page fetch async stuff before rendering
-  static async getInitialProps({ query }) {
+  static async getInitialProps({query}) {
     const data = await fakePromise({
       slug: [query.group_by, query.start, query.end]
     });
-    return { data };
+    return {data};
   }
+
   render() {
     return (
       <Layout title="Words Count">

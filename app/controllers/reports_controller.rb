@@ -12,19 +12,19 @@ class ReportsController < ApplicationController
   def tweets_by_minute
     expires_in 1.day, public: true
     render json: Reports::TweetHourReport.all.as_json(except: '_id')
-                   .map { |report_json| dates_to_number(report_json)}
+                   .map {|report_json| dates_to_number(report_json)}
   end
 
   def tweets_daily
     expires_in 1.day, public: true
     render json: Reports::TweetDailyReport.all.as_json(except: '_id')
-                   .map { |report_json| dates_to_number(report_json)}
+                   .map {|report_json| dates_to_number(report_json)}
   end
 
   def words_daily
     expires_in 1.day, public: true
     render json: Reports::WordsDailyReport.all.as_json(except: '_id')
-                   .map { |report_json| dates_to_number(report_json)}
+                   .map {|report_json| dates_to_number(report_json)}
   end
 
   private

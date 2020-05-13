@@ -2,7 +2,7 @@ require 'uri'
 
 class Tweets::ImportJob < ApplicationJob
   def perform(*args)
-    years_range.each{ |year| perform_for_year(year) }
+    years_range.each {|year| perform_for_year(year)}
   end
 
   def perform_for_year(year)
@@ -15,7 +15,7 @@ class Tweets::ImportJob < ApplicationJob
     HTTParty.get(url).parsed_response
       .map(&:symbolize_keys)
       .map(&time_to_utc)
-      .select{|tweet| new_tweet?(tweet) }.each do |tweet|
+      .select {|tweet| new_tweet?(tweet)}.each do |tweet|
       Tweet.create!(
         tweet
       )

@@ -40,7 +40,7 @@ RSpec.describe Links::CountMentionsJob, type: :job do
   describe '#perform' do
     it 'creates word mentions and mark link as scanned', :vcr do
       link = create(:link, url: 'https://en.wikipedia.org/wiki/List_of_conspiracy_theories')
-      expect{job.perform(link.id.to_s)}.to change{link.word_mentions.count}.by(3)
+      expect {job.perform(link.id.to_s)}.to change {link.word_mentions.count}.by(3)
       conspiracy_mention = link.word_mentions.find_by(term: 'conspiracy')
       expect(conspiracy_mention.count).to eq(246)
       expect(conspiracy_mention.created_at.utc.to_s).to eq(link.created_at.utc.to_s)
@@ -52,7 +52,7 @@ RSpec.describe Links::CountMentionsJob, type: :job do
     it 'ignore case' do
       link = create(:link)
       expect(job).to receive(:fetch_url).and_return('<html><body>conspiracy Conspiracy</body></html>')
-      expect{job.perform(link.id.to_s)}.to change{link.word_mentions.count}.by(1)
+      expect {job.perform(link.id.to_s)}.to change {link.word_mentions.count}.by(1)
       conspiracy_mention = link.word_mentions.find_by(term: 'conspiracy')
       expect(conspiracy_mention.count).to eq(2)
       expect(conspiracy_mention.created_at.utc.to_s).to eq(link.created_at.utc.to_s)
@@ -61,7 +61,7 @@ RSpec.describe Links::CountMentionsJob, type: :job do
     it 'knows to handle utf8', :vcr do
       url = 'https://t.co/6cRDaMnVUV'
       link = create(:link, url: url)
-      expect{job.perform(link.id.to_s)}.to change{Link.where(scanned: true).count}.by(1)
+      expect {job.perform(link.id.to_s)}.to change {Link.where(scanned: true).count}.by(1)
     end
   end
 end

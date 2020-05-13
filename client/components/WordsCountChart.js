@@ -20,7 +20,8 @@ const Lines = () => (
   <React.Fragment>
     {
       ['conspiracy', 'russia'].map(k =>
-        <Line type="monotone" key={k} dataKey={k} stroke="#8884d8" activeDot={{r: 8}}/>
+        <Line type="monotone" key={k} dataKey={k} stroke="#8884d8"
+              activeDot={{r: 8}}/>
       )
     }
   </React.Fragment>

@@ -20,13 +20,13 @@ RSpec.describe Links::CreateJob, type: :job do
   describe '#performs' do
     it 'creates new links' do
       tweet = create(:tweet, text: 'we have two links www.google.com and also https://t.co/KO8E3bfWfn nice!', created_at: Time.now)
-      expect{job.perform(Time.now - 1.day)}.to change{Link.count}.by(2)
+      expect {job.perform(Time.now - 1.day)}.to change {Link.count}.by(2)
       expect(tweet.reload.links.map(&:url)).to eq(['www.google.com', 'https://t.co/KO8E3bfWfn'])
     end
 
     it 'does not create duplicate links' do
       tweet = create(:tweet, text: 'we have two same links www.yahoo.com and also www.yahoo.com why?', created_at: Time.now)
-      expect{job.perform(Time.now - 1.day)}.to change{Link.count}.by(1)
+      expect {job.perform(Time.now - 1.day)}.to change {Link.count}.by(1)
       expect(tweet.reload.links.map(&:url)).to eq(['www.yahoo.com'])
     end
   end

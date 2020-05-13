@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Reports::TweetDailyJob, type: :job do
   let(:job) {described_class.new}
 
-  before(:each){
+  before(:each) {
     @today_start = Date.today.beginning_of_day
     @today_end = Date.today.end_of_day
     @yesterday_end = @today_end - 1.day
@@ -57,14 +57,14 @@ RSpec.describe Reports::TweetDailyJob, type: :job do
   describe '#performs' do
     it 'create daily reports' do
       two_days_ago = Date.today.middle_of_day - 2.days
-      expect{job.perform(two_days_ago)}.to change{Reports::TweetDailyReport.count}.by(3)
+      expect {job.perform(two_days_ago)}.to change {Reports::TweetDailyReport.count}.by(3)
       result = Reports::TweetDailyReport.all.as_json(except: '_id')
       expected = [
         {date: two_days_ago.beginning_of_day.to_datetime.strftime("%FT%T.%LZ"), tweets: 0, retweets: 0},
         {date: @yesterday_end.beginning_of_day.to_datetime.strftime("%FT%T.%LZ"), tweets: 1, retweets: 2},
         {date: @today_start.to_datetime.strftime("%FT%T.%LZ"), tweets: 2, retweets: 1},
       ].map(&:stringify_keys)
-      expect{job.perform(two_days_ago)}.to change{Reports::TweetDailyReport.count}.by(3)
+      expect {job.perform(two_days_ago)}.to change {Reports::TweetDailyReport.count}.by(3)
       expect(result).to eq(expected)
     end
   end

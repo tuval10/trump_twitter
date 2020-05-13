@@ -1,4 +1,5 @@
 import fetch from 'node-fetch'
+
 const BASE_URL = `${process.env.NEXT_STATIC_API_URL}/trump_twitter_api/${process.env.NEXT_STATIC_API_VERSION}`
 
 // fake async fetch

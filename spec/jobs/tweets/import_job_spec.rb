@@ -8,7 +8,7 @@ RSpec.describe Tweets::ImportJob, type: :job do
 
   describe '#last_update' do
     it 'returns default datetime if no records' do
-      expected = Time.parse( "2018-01-1 00:00:00 UTC")
+      expected = Time.parse("2018-01-1 00:00:00 UTC")
       expect(job.send(:last_update)).to eq(expected)
     end
 
@@ -29,17 +29,17 @@ RSpec.describe Tweets::ImportJob, type: :job do
 
   describe '#years_range' do
     it 'returns years range since default change if no tweets' do
-      Timecop.freeze(Time.parse( "2018-01-1 00:00:00 UTC")) do
+      Timecop.freeze(Time.parse("2018-01-1 00:00:00 UTC")) do
         expect(job.send(:years_range).to_a).to eq([2018])
       end
 
-      Timecop.freeze(Time.parse( "2020-01-1 00:00:00 UTC")) do
+      Timecop.freeze(Time.parse("2020-01-1 00:00:00 UTC")) do
         expect(job.send(:years_range).to_a).to eq([2018, 2019, 2020])
       end
     end
 
     it 'returns years range since last change if there is tweets' do
-      Timecop.freeze(Time.parse( "2020-01-1 00:00:00 UTC")) do
+      Timecop.freeze(Time.parse("2020-01-1 00:00:00 UTC")) do
         tweet = create(:tweet)
         expect(tweet.created_at.year).to eq(2020)
         expect(job.send(:years_range).to_a).to eq([2020])
@@ -70,7 +70,7 @@ RSpec.describe Tweets::ImportJob, type: :job do
     end
 
     it 'creates only new records' do
-      create(:tweet, created_at: Time.parse( "2018-12-29 00:00:00 UTC"))
+      create(:tweet, created_at: Time.parse("2018-12-29 00:00:00 UTC"))
       job.perform_for_year(2018)
       expect(Tweet.count).to eq(25)
     end
@@ -78,7 +78,7 @@ RSpec.describe Tweets::ImportJob, type: :job do
 
   describe '#perform' do
     it 'calls #perform_for_years' do
-      Timecop.freeze(Time.parse( "2020-01-1 00:00:00 UTC")) do
+      Timecop.freeze(Time.parse("2020-01-1 00:00:00 UTC")) do
         expect(job).to receive(:perform_for_year).with(2018)
         expect(job).to receive(:perform_for_year).with(2019)
         expect(job).to receive(:perform_for_year).with(2020)

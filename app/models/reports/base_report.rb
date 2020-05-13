@@ -3,9 +3,9 @@ class Reports::BaseReport
 
   field :date, type: Time
 
-  index({ date: 1 },{ background: true })
+  index({date: 1}, {background: true})
 
-  default_scope -> { order(date: :asc) }
+  default_scope -> {order(date: :asc)}
 
   validates_presence_of :date
 end

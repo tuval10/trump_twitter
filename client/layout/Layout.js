@@ -1,9 +1,23 @@
 import React from 'react';
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
-import {Box, Paper, Drawer, CssBaseline, AppBar, Toolbar, List, Typography, Divider, IconButton, Container, Grid, Link} from '@material-ui/core';
+import {makeStyles} from '@material-ui/core/styles';
+import {
+  Box,
+  Paper,
+  Drawer,
+  CssBaseline,
+  AppBar,
+  Toolbar,
+  List,
+  Typography,
+  Divider,
+  IconButton,
+  Container,
+  Grid,
+  Link
+} from '@material-ui/core';
 import {KeyboardArrowLeft, GitHub, Menu} from '@material-ui/icons';
-import { mainListItems } from './listItems';
+import {mainListItems} from './listItems';
 import Head from 'next/head'
 
 
@@ -99,7 +113,8 @@ function Copyright() {
       {'Created by '}
       <Link color="inherit" href="https://github.com/tuval10">
         Tuval Rotem
-        <IconButton className={classes.smallButton} aria-label="tuval rotem github">
+        <IconButton className={classes.smallButton}
+                    aria-label="tuval rotem github">
           <GitHub fontSize="small"/>
         </IconButton>
       </Link>{' '}
@@ -112,15 +127,15 @@ const ChildrenWrapper = ({children, wrapper}) => {
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   if (wrapper)
     return (
-    <Grid container spacing={3}>
-      <Grid item xs={12} md={8} lg={9}>
-        <Paper className={fixedHeightPaper}>
-          {children}
-        </Paper>
+      <Grid container spacing={3}>
+        <Grid item xs={12} md={8} lg={9}>
+          <Paper className={fixedHeightPaper}>
+            {children}
+          </Paper>
+        </Grid>
       </Grid>
-    </Grid>
     );
-  else{
+  else {
     return <React.Fragment>
       {children}
     </React.Fragment>
@@ -137,7 +152,7 @@ export default function Layout({children, title, wrapper}) {
     setOpen(false);
   };
 
-  if(wrapper === undefined) {
+  if (wrapper === undefined) {
     wrapper = true;
   }
 
@@ -146,8 +161,9 @@ export default function Layout({children, title, wrapper}) {
       <Head>
         <title>{title}</title>
       </Head>
-      <CssBaseline />
-      <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
+      <CssBaseline/>
+      <AppBar position="absolute"
+              className={clsx(classes.appBar, open && classes.appBarShift)}>
         <Toolbar className={classes.toolbar}>
           <IconButton
             edge="start"
@@ -156,9 +172,10 @@ export default function Layout({children, title, wrapper}) {
             onClick={handleDrawerOpen}
             className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
           >
-            <Menu />
+            <Menu/>
           </IconButton>
-          <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
+          <Typography component="h1" variant="h6" color="inherit" noWrap
+                      className={classes.title}>
             {title}
           </Typography>
         </Toolbar>
@@ -172,18 +189,18 @@ export default function Layout({children, title, wrapper}) {
       >
         <div className={classes.toolbarIcon}>
           <IconButton onClick={handleDrawerClose}>
-            <KeyboardArrowLeft />
+            <KeyboardArrowLeft/>
           </IconButton>
         </div>
-        <Divider />
+        <Divider/>
         <List>{mainListItems}</List>
       </Drawer>
       <main className={classes.content}>
-        <div className={classes.appBarSpacer} />
+        <div className={classes.appBarSpacer}/>
         <Container maxWidth="lg" className={classes.container}>
-          <ChildrenWrapper children={children} wrapper={wrapper} />
+          <ChildrenWrapper children={children} wrapper={wrapper}/>
           <Box pt={4}>
-            <Copyright />
+            <Copyright/>
           </Box>
         </Container>
       </main>
