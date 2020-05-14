@@ -1,6 +1,0 @@
-#!/bin/sh
-if [ "$RACK_ENV" == "client" ]; then
-  cd client && next start
-else
-  bundle exec puma -C config/puma.rb
-fi
