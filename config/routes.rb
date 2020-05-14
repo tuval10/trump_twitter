@@ -19,6 +19,7 @@ Rails.application.routes.draw do
     match full_path, to: "#{opts.fetch(:controller_name)}##{opts[:action_name]}", via: http_method
   end
 
+  add_swagger_route 'GET', '/', controller_name: 'reports', action_name: 'tweets_by_minute'
   add_swagger_route 'GET', '/trump_twitter_api/1.0.0/tweets_by_minute', controller_name: 'reports', action_name: 'tweets_by_minute'
   add_swagger_route 'GET', '/trump_twitter_api/1.0.0/tweets_daily', controller_name: 'reports', action_name: 'tweets_daily'
   add_swagger_route 'GET', '/trump_twitter_api/1.0.0/words_daily', controller_name: 'reports', action_name: 'words_daily'

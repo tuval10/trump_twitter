@@ -9,6 +9,8 @@ Graphs:
 1. Tweets overtime / # of retweets
 1. Tweets by the time of day
 
+[see it in action!](https://tuval-trump-twitter-client.herokuapp.com/)
+
 ## Requirements
 This project require [mongodb](https://docs.mongodb.com/manual/administration/install-community) and redis
 update .env file
@@ -44,6 +46,13 @@ To clean sidekiq queues: ```rake sidekiq:clean```
 
 ## Client
 Check client library in order to run Next.js client
+
+## Deployment
+done via 2 different heroku - for client and server
+
+client: https://tuval-trump-twitter-client.herokuapp.com/
+
+server: https://tuval-trump-twitter.herokuapp.com/trump_twitter_api/1.0.0/tweets_by_minute
 
 
 ### TODO not must

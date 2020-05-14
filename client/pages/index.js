@@ -12,7 +12,7 @@ import {
 
 export default function Index() {
   return (
-    <Layout title="Welcome to Trump tweeter statistic" wrapper={false}>
+    <Layout title="Welcome to Trump's Twitter statistic" wrapper={false}>
       <Container maxWidth="lg">
         <Grid container spacing={3}>
           <Grid item xs={12} md={8} lg={9}>

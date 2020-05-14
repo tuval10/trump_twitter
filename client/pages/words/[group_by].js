@@ -1,6 +1,7 @@
 import React from "react";
 import Layout from '../../layout/Layout';
-import WordsCountChart from '../../components/WordsCountChart';
+// import WordsCountChart from '../../components/WordsCountChart';
+import {Build} from '@material-ui/icons';
 
 // fake async fetch
 const fakePromise = data =>
@@ -18,7 +19,8 @@ export default class Words extends React.Component {
   render() {
     return (
       <Layout title="Words Count">
-        <WordsCountChart/>
+        <Build/>
+        <div>Work in Progress</div>
       </Layout>
     );
   }
