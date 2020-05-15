@@ -41,10 +41,10 @@ http_interactions:
       Set-Cookie:
       - ARRAffinity=c8895273486274be52e11946d56eaf2b935ec190f10227edf72086fbba0b3a96;Path=/;HttpOnly;Domain=httpstat.us
       Date:
-      - Wed, 13 May 2020 22:47:11 GMT
+      - Fri, 15 May 2020 22:05:01 GMT
     body:
       encoding: UTF-8
       string: 404 Not Found
     http_version: null
-  recorded_at: Wed, 13 May 2020 22:47:12 GMT
+  recorded_at: Fri, 15 May 2020 22:05:02 GMT
 recorded_with: VCR 5.1.0

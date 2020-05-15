@@ -18,22 +18,21 @@ RSpec.describe Links::CountMentionsJob, type: :job do
     end
   end
 
+  describe '#get_words_tally' do
+    it 'counts words' do
+      expect(job.send(:get_words_tally, body)).to eq({conspiracy: 2, russia: 1}.stringify_keys)
+    end
+
+    it 'ignore capitals' do
+      expect(job.send(:get_words_tally, body.gsub('conspiracy', 'Conspiracy'))).to eq({conspiracy: 2, russia: 1}.stringify_keys)
+    end
+  end
+
 
   describe '#fetch_url' do
     it 'fetch and returns body', :vcr do
       result = job.send(:fetch_url, 'www.google.com')
-      expect(result.length).to eq(14564)
       expect(result).to include('<!doctype html>')
-    end
-
-    it 'returns nil on non exist domain - socket errror', :vcr do
-      result = job.send(:fetch_url, 'http://asd.vcxvxcv.ccc/')
-      expect(result).to be_nil
-    end
-
-    it 'returns nil on faulty status code', :vcr do
-      result = job.send(:fetch_url, 'https://httpstat.us/404')
-      expect(result).to be_nil
     end
   end
 
@@ -49,19 +48,28 @@ RSpec.describe Links::CountMentionsJob, type: :job do
       expect(link.reload.scanned).to be_truthy
     end
 
-    it 'ignore case' do
-      link = create(:link)
-      expect(job).to receive(:fetch_url).and_return('<html><body>conspiracy Conspiracy</body></html>')
-      expect {job.perform(link.id.to_s)}.to change {link.word_mentions.count}.by(1)
-      conspiracy_mention = link.word_mentions.find_by(term: 'conspiracy')
-      expect(conspiracy_mention.count).to eq(2)
-      expect(conspiracy_mention.created_at.utc.to_s).to eq(link.created_at.utc.to_s)
+    it 'catches socket errror', :vcr do
+      link = create(:link, url: 'http://asd.vcxvxcv.ccc/')
+      expect(Rollbar).to receive(:warning)
+      expect {job.perform(link.id.to_s)}.to change {Link.where(scanned: true, error: true).count}.by(1)
     end
 
-    it 'knows to handle utf8', :vcr do
-      url = 'https://t.co/6cRDaMnVUV'
-      link = create(:link, url: url)
-      expect {job.perform(link.id.to_s)}.to change {Link.where(scanned: true).count}.by(1)
+    it 'catches link not found error' do
+      expect(Rollbar).to receive(:warning)
+      job.perform("unknown_id")
+    end
+
+    it 'catches and report faulty status code', :vcr do
+      link = create(:link, url: 'https://httpstat.us/404')
+      expect(Rollbar).to receive(:warning)
+      expect {job.perform(link.id.to_s)}.to change {Link.where(scanned: true, error: true).count}.by(1)
+    end
+
+    it 'catch argument error', :vcr do
+      link = create(:link)
+      allow(job).to receive(:get_text).and_raise(ArgumentError)
+      expect(Rollbar).to receive(:warning)
+      expect {job.perform(link.id.to_s)}.to change {Link.where(scanned: true, error: true).count}.by(1)
     end
   end
 end

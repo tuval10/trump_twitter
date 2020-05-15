@@ -4,32 +4,36 @@ class Links::CountMentionsJob < ApplicationJob
     link = Link.find(link_id)
     body = fetch_url(link.url)
     unless body.nil?
-      is_keyword = Proc.new {|word| keywords.include?(word)}
       body = body.force_encoding('UTF-8')
-      get_text(body).scan(/\w+/).map(&:downcase).select(&is_keyword).tally.each do |term, count|
+      get_words_tally(body).each do |term, count|
         link.word_mentions.create!(term: term, count: count, created_at: link.created_at)
       end
     end
     link.update_attributes!(scanned: true)
+  rescue Mongoid::Errors::DocumentNotFound => e
+    Rollbar.warning(e, job: 'Links::CountMentionsJob', link_id: link_id)
+  rescue HTTParty::Error, SocketError, OpenSSL::SSL::SSLError, ArgumentError => e
+    Rollbar.warning(e, job: 'Links::CountMentionsJob', url: link&.url)
+    link&.update_attributes!(scanned: true, error: true)
   end
 
   private
+
+  def get_words_tally(body)
+    is_keyword = Proc.new {|word| keywords.include?(word)}
+    get_text(body).scan(/\w+/).map(&:downcase).select(&is_keyword).tally
+  end
 
   def fetch_url(url)
     url = "http://#{url}" if URI.parse(url).scheme.nil?
     response = HTTParty.get(url)
     unless response.ok?
-      Rollbar.error("error status #{response.code}", job: 'Links::CountMentionsJob', url: url)
-      return nil
+      raise HTTParty::ResponseError.new "error status #{response.code}"
     end
     if response.body.empty?
-      Rollbar.error("empty body. status #{response.code}", job: 'Links::CountMentionsJob', url: url)
-      return nil
+      raise HTTParty::ResponseError.new "empty body. status #{response.code}"
     end
     response.body
-  rescue HTTParty::Error, SocketError => e
-    Rollbar.error(e, job: 'Links::CountMentionsJob', url: url)
-    nil
   end
 
   def get_text(body)
