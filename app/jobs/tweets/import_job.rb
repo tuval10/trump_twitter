@@ -2,20 +2,7 @@ require 'uri'
 
 class Tweets::ImportJob < ApplicationJob
   def perform(*args)
-    years_range.each {|year| perform_for_year(year)}
-  end
-
-  def perform_for_year(year)
-    time_to_utc = Proc.new do |tweet|
-      tweet[:created_at] = Time.parse(tweet[:created_at]).utc
-      tweet
-    end
-
-    url = URI.parse("#{ENV['API_URL']}/#{year}.json")
-    HTTParty.get(url).parsed_response
-      .map(&:symbolize_keys)
-      .map(&time_to_utc)
-      .select {|tweet| new_tweet?(tweet)}.each do |tweet|
+    TrumpTwitterApi.new(last_update).get_new_tweets.each do |tweet|
       Tweet.create!(
         tweet
       )
@@ -31,15 +18,7 @@ class Tweets::ImportJob < ApplicationJob
 
   private
 
-  def years_range
-    ((last_update.year)..(Time.new.utc.year))
-  end
-
   def last_update
     @last_update ||= Tweet.desc(:created_at).limit(1).first&.created_at || default_last_update
-  end
-
-  def new_tweet?(tweet)
-    tweet[:created_at] > last_update
   end
 end

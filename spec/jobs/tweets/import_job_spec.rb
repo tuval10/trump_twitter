@@ -3,6 +3,16 @@ require 'rails_helper'
 describe Tweets::ImportJob, type: :job do
   include ActiveJob::TestHelper
   let(:job) {described_class.new}
+  let (:api_response_parsed) {{
+    created_at:  Time.parse('2018-12-31 23:53:06 UTC'),
+    favorite_count: 136012,
+    id_str: "1079888205351145472",
+    in_reply_to_user_id_str: nil,
+    is_retweet: false,
+    retweet_count: 33548,
+    source: "Twitter for iPhone",
+    text: "HAPPY NEW YEAR! https://t.co/bHoPDPQ7G6",
+  }}
 
   it {is_expected.to be_processed_in :default}
 
@@ -27,63 +37,10 @@ describe Tweets::ImportJob, type: :job do
     end
   end
 
-  describe '#years_range' do
-    it 'returns years range since default change if no tweets' do
-      Timecop.freeze(Time.parse("2018-01-1 00:00:00 UTC")) do
-        expect(job.send(:years_range).to_a).to eq([2018])
-      end
-
-      Timecop.freeze(Time.parse("2020-01-1 00:00:00 UTC")) do
-        expect(job.send(:years_range).to_a).to eq([2018, 2019, 2020])
-      end
-    end
-
-    it 'returns years range since last change if there is tweets' do
-      Timecop.freeze(Time.parse("2020-01-1 00:00:00 UTC")) do
-        tweet = create(:tweet)
-        expect(tweet.created_at.year).to eq(2020)
-        expect(job.send(:years_range).to_a).to eq([2020])
-      end
-    end
-  end
-
-  describe '#new_tweet?' do
-    it 'returns true for new tweet' do
-      old_tweet = create(:tweet)
-      expect(job.send(:last_update)).to eq(old_tweet.created_at)
-      new_tweet = create(:tweet, created_at: old_tweet.created_at + 1.day)
-      expect(job.send(:new_tweet?, new_tweet)).to be_truthy
-    end
-
-    it 'returns false for old tweet' do
-      old_tweet = create(:tweet)
-      new_tweet = create(:tweet, created_at: old_tweet.created_at + 1.day)
-      expect(job.send(:last_update)).to eq(new_tweet.created_at)
-      expect(job.send(:new_tweet?, old_tweet)).to be_falsey
-    end
-  end
-
-  describe '#perform_for_year', :vcr do
-    it 'creates new records' do
-      job.perform_for_year(2018)
-      expect(Tweet.count).to eq(3510)
-    end
-
-    it 'creates only new records' do
-      create(:tweet, created_at: Time.parse("2018-12-29 00:00:00 UTC"))
-      job.perform_for_year(2018)
-      expect(Tweet.count).to eq(25)
-    end
-  end
-
   describe '#perform' do
-    it 'calls #perform_for_years' do
-      Timecop.freeze(Time.parse("2020-01-1 00:00:00 UTC")) do
-        expect(job).to receive(:perform_for_year).with(2018)
-        expect(job).to receive(:perform_for_year).with(2019)
-        expect(job).to receive(:perform_for_year).with(2020)
-        job.perform
-      end
+    it 'creates new tweets from api response' do
+      expect_any_instance_of(TrumpTwitterApi).to receive(:get_new_tweets).and_return([api_response_parsed])
+      expect {job.perform}.to change {Tweet.count}.by(1)
     end
   end
 
