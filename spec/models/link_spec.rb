@@ -15,6 +15,7 @@ RSpec.describe Link, type: :model do
       is_expected.to have_field(:tweet_id).of_type(Object)
       is_expected.to have_field(:created_at).of_type(Time)
       is_expected.to have_field(:scanned).of_type(Mongoid::Boolean).with_default_value_of(false)
+      is_expected.to have_field(:error).of_type(Mongoid::Boolean).with_default_value_of(false)
     end
   end
 
