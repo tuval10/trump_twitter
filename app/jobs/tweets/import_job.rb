@@ -35,10 +35,6 @@ class Tweets::ImportJob < ApplicationJob
     ((last_update.year)..(Time.new.utc.year))
   end
 
-  def default_last_update
-    Time.parse(ENV['DATA_SINCE'] || "2018-01-1 00:00:00 UTC")
-  end
-
   def last_update
     @last_update ||= Tweet.desc(:created_at).limit(1).first&.created_at || default_last_update
   end
