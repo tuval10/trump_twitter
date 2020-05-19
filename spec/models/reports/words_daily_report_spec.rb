@@ -11,6 +11,11 @@ RSpec.describe Reports::WordsDailyReport, type: :model do
     it do
       is_expected.to have_field(:_id).of_type(BSON::ObjectId)
       is_expected.to have_field(:date).of_type(Time)
+      is_expected.to have_field(:conspiracy).of_type(Integer)
+      is_expected.to have_field(:russia).of_type(Integer)
+      is_expected.to have_field(:scandal).of_type(Integer)
+      is_expected.to have_field(:outrage).of_type(Integer)
+      is_expected.to have_field(:china).of_type(Integer)
     end
   end
 

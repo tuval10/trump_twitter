@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Tweets::ImportJob, type: :job do
+describe Tweets::ImportJob, type: :job do
   include ActiveJob::TestHelper
   let(:job) {described_class.new}
 

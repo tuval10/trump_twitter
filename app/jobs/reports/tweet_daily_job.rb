@@ -4,7 +4,7 @@ class Reports::TweetDailyJob < ApplicationJob
   def perform(last_updated_at)
     retweets, tweets = new_tweets(last_updated_at).partition {|v| v.is_retweet}
     tweets_by_date, retweets_by_date = tally_by_date(tweets, retweets)
-    date_range(last_updated_at).map do |date|
+    date_range(last_updated_at).each do |date|
       Reports::TweetDailyReport.create!(
         date: date.to_datetime,
         tweets: tweets_by_date[date] || 0,

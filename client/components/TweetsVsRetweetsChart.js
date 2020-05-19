@@ -31,9 +31,9 @@ const TweetsVsRetweetsChart = ({data}) => {
 TweetsVsRetweetsChart.propTypes = {
   data: PropTypes.arrayOf(
     PropTypes.shape({
-      date: PropTypes.number,
-      tweets: PropTypes.number,
-      retweets: PropTypes.number,
+      date: PropTypes.number.isRequired,
+      tweets: PropTypes.number.isRequired,
+      retweets: PropTypes.number.isRequired,
     })
   ).isRequired
 }

@@ -12,4 +12,8 @@ module Clockwork
   every(1.day, 'links.count_mentions', at: '01:00') do
     Links::CountMentionsManagerJob.perform_later
   end
+
+  every(1.day, 'reports.words_daily', at: '02:00') do
+    Reports::WordsDailyJob.perform_later
+  end
 end
