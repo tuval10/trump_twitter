@@ -12,7 +12,6 @@ export const getServerSideProps = async ({query}) => {
   let groupBy = getGroupByPeriodParam(query);
   if (groupBy != 'Day')
     data = groupByPeriod(query.group_by, data, keys);
-  // console.log(JSON.stringify(data));
   return {props: {data, groupBy}};
 };
 

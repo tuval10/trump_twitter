@@ -7,13 +7,14 @@ export const getGroupByMinuteParam = ({group_by}) => groupByMinuteValues.include
 
 
 const groupByDate = (data, keys) => {
+  const defaults = keys.map(k => ( {[k]: 0} ));
   return data.reduce((dataGrouped, {date, ...values}) => {
     const defaultObj = Object.assign(
       {date},
-      ...keys.map(k => ( {[k]: 0} ))
+      ...defaults
     );
     dataGrouped[date] = dataGrouped[date] || defaultObj;
-    Object.entries(values).forEach(([k, v]) => dataGrouped[date][k] += v)
+    Object.entries(values).forEach(([k, v]) => dataGrouped[date][k] += (v || 0));
     return dataGrouped;
   }, {});
 };
