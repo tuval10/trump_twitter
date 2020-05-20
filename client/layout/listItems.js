@@ -13,7 +13,7 @@ export const mainListItems = (
         <ListItemText primary="Home"/>
       </ListItem>
     </Link>
-    <Link href="/tweets_retweets/[group_by]" as="/tweets_retweets/d">
+    <Link href="/tweets_retweets/[group_by]" as="/tweets_retweets/Day">
       <ListItem button>
         <ListItemIcon>
           <Timeline/>
@@ -21,7 +21,7 @@ export const mainListItems = (
         <ListItemText primary="Tweets vs. Retweets"/>
       </ListItem>
     </Link>
-    <Link href="/words/[group_by]" as="/words/d">
+    <Link href="/words/[group_by]" as="/words/Day">
       <ListItem button>
         <ListItemIcon>
           <MenuBook/>
@@ -29,7 +29,7 @@ export const mainListItems = (
         <ListItemText primary="Links word count"/>
       </ListItem>
     </Link>
-    <Link href="/tweet-hour" as="/tweet-hour">
+    <Link href="/tweeting_time/[group_by]" as="/tweeting_time/1">
       <ListItem button>
         <ListItemIcon>
           <Update/>
