@@ -48,16 +48,26 @@ To clean sidekiq queues: ```rake sidekiq:clean```
 Check client library in order to run Next.js client
 
 ## Deployment
-done via 2 different heroku - for client and server
+### server
+deployment from heroku: hosted on [https://tuval-trump-twitter.herokuapp.com/trump_twitter_api](https://tuval-trump-twitter.herokuapp.com/trump_twitter_api)
 
-client: https://tuval-trump-twitter-client.herokuapp.com/
+### client
+1. add remote: 
+```
+git remote add client https://git.heroku.com/tuval-trump-twitter-client.git
+```
+1. push master: 
+```
+git push client master:master
+```
 
-server: https://tuval-trump-twitter.herokuapp.com/trump_twitter_api/1.0.0/tweets_by_minute
 
 
 ### TODO not must
-1. add words occurrences in links reports
-1. add procfile and deploy to heroku  
 1. only 1 env file for client and server
 1. add date selector to the UI
-1. add group by selector to the UI
+1. add linter
+1. add dead man snitch
+1. switch "group by minute" selector to bar instead of buttons
+1. move some logic from word count to model
+1. split word count logic to fetch, then count

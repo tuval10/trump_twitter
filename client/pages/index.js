@@ -26,7 +26,7 @@ export default function Index() {
       <Container maxWidth="lg">
         <Grid container spacing={3}>
           <Grid item xs={12} md={8} lg={9}>
-            <Link href="/tweet-hour" as="/tweet-hour">
+            <Link href="/tweeting_time/[group_by]" as="/tweeting_time/1">
               <Button variant="contained" color="primary">
                 <a>Tweets by time of day</a>
               </Button>
@@ -37,7 +37,7 @@ export default function Index() {
       <Container maxWidth="lg">
         <Grid container spacing={3}>
           <Grid item xs={12} md={8} lg={9}>
-            <Link href="/tweets_retweets/[group_by]" as="/tweets_retweets/d">
+            <Link href="/tweets_retweets/[group_by]" as="/tweets_retweets/Day">
               <Button variant="contained" color="primary">
                 <a>Number of tweets vs. Number of retweets</a>
               </Button>
@@ -48,7 +48,7 @@ export default function Index() {
       <Container maxWidth="lg">
         <Grid container spacing={3}>
           <Grid item xs={12} md={8} lg={9}>
-            <Link href="/words/[group_by]" as="/words/d">
+            <Link href="/words/[group_by]" as="/words/Day">
               <Button variant="contained" color="primary">
                 <a>Selected words occurrences</a>
               </Button>
