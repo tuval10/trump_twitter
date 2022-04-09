@@ -10,7 +10,7 @@
     "express": "^4.17.1",
     "highcharts": "^8.1.0",
     "highcharts-react-official": "^3.0.0",
-    "moment": "^2.25.3",
+    "moment": "^2.29.2",
     "next": "latest",
     "next-connect": "^0.6.6",
     "node-fetch": "^2.6.0",
