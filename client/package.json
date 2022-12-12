@@ -7,7 +7,7 @@
     "@material-ui/icons": "^4.9.1",
     "cacheable-response": "^2.0.9",
     "clsx": "latest",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "highcharts": "^8.1.0",
     "highcharts-react-official": "^3.0.0",
     "moment": "^2.25.3",
